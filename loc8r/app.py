@@ -36,11 +36,7 @@ def entity(sub):
             text_list.append(post['data']['title'])
         except KeyError:
             print post
-    try:
-        res = ml.extractors.extract(entity_module_id, text_list)
-    except Exception as e:
-        print text_list
-        raise e
+    res = ml.extractors.extract(entity_module_id, text_list)
     locations = []
     for locs, post in zip(res.result, posts):
         pc = json.loads(json.dumps(locs))
