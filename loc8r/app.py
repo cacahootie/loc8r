@@ -33,7 +33,7 @@ def entity(sub):
     text_list = []
     for post in posts:
         try:
-            text_list.append(post['data']['title'])
+            text_list.append(post['data']['title'].encode('ascii',errors='ignore'))
         except KeyError:
             print post
     res = ml.extractors.extract(entity_module_id, text_list)
