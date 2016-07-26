@@ -23,7 +23,7 @@ geolocator = GeoNames(
 @app.route("/r/<sub>/")
 def entity(sub):
     reddit = requests.get(
-        'https://www.reddit.com/r/{}.json'.format(sub),
+        'http://www.reddit.com/r/{}.json'.format(sub),
         headers = {'User-agent': 'loc8rbot 0.0.1.0.1.a.a.a.b.k.h'}
     ).json()
     try:
@@ -36,7 +36,11 @@ def entity(sub):
             text_list.append(post['data']['title'])
         except KeyError:
             print post
-    res = ml.extractors.extract(entity_module_id, text_list)
+    try:
+        res = ml.extractors.extract(entity_module_id, text_list)
+    except Exception as e:
+        print text_list
+        raise e
     locations = []
     for locs, post in zip(res.result, posts):
         pc = json.loads(json.dumps(locs))
