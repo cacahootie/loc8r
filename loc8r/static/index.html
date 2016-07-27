@@ -7,10 +7,29 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" type="text/css">
         <link rel="stylesheet" href="/static/css/stylesheet.css" type="text/css">
+
+        <style>
+            body, html {
+                width: 100%;
+                height: 100%;
+            }
+            #map {
+                width: 100%;
+                height: 100%;
+            }
+        </style>
     </head>
     
     <body>
-        <h1>loc8r</h1>    
+        <div id="container"></div>
+
+        <script type="text/html" id="layout">
+            <div id="main"></div>
+        </script>
+
+        <script type="text/html" id="mapview_templ">
+            <div id="map"></div>
+        </script>    
 
         <!-- Prereqs -->
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" type="text/javascript"></script>

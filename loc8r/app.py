@@ -2,7 +2,7 @@
 import json
 
 from monkeylearn import MonkeyLearn
-from flask import Flask, jsonify
+from flask import Flask, jsonify, send_from_directory
 import requests
 from geopy.geocoders import GeoNames
 
@@ -19,6 +19,10 @@ geolocator = GeoNames(
     timeout=3
 )
 
+
+@app.route('/')
+def root():
+    return app.send_static_file('index.html')
 
 @app.route("/r/<sub>/")
 def entity(sub):
