@@ -33,9 +33,9 @@ def entity(sub):
     text_list = []
     for post in posts:
         try:
-            text_list.append(post['data']['title'].encode('ascii',errors='ignore'))
+            text_list.append(post['data']['title'])
         except KeyError:
-            print post
+            pass
     res = ml.extractors.extract(entity_module_id, text_list)
     locations = []
     for locs, post in zip(res.result, posts):
@@ -54,4 +54,8 @@ def entity(sub):
     })
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(
+        host='0.0.0.0',
+        port=5000,
+        debug=True
+    )
