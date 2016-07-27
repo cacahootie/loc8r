@@ -20,11 +20,7 @@ geolocator = GeoNames(
 )
 
 
-@app.route('/')
-def root():
-    return app.send_static_file('index.html')
-
-@app.route("/r/<sub>/")
+@app.route("/svc/r/<sub>/")
 def entity(sub):
     reddit = requests.get(
         'http://www.reddit.com/r/{}.json'.format(sub),
@@ -56,6 +52,12 @@ def entity(sub):
         'reddit': reddit,
         'result': locations
     })
+
+
+@app.route('/')
+@app.route('/<path:path>')
+def root(path=None):
+    return app.send_static_file('index.html')
 
 if __name__ == "__main__":
     app.run(

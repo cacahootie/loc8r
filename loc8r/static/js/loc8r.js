@@ -37,7 +37,7 @@ var AppRouter = Backbone.Router.extend({
     },
     home: function () {
         this.loadView(MapView,{
-            url:'/r/earthporn/'
+            url: '/svc' + window.location.pathname
         });
     },
     photo: function (d) {

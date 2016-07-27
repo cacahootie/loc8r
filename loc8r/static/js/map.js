@@ -50,12 +50,17 @@ var MapView = BaseView.extend({
 
 		d["result"].forEach(function(dd) {
             photos[dd.id] = dd;
+            if (!dd.preview) {
+                return;
+            }
 			var mk = L.circleMarker([dd.lat, dd.lng], default_style)
                 .addTo(display_layer);
 			
             var self = this,
-                img_src = dd.preview.images[0].resolutions[1].url
-                label = '<a target="_blank" href="https://www.reddit.com' + dd.permalink + '"><h4>' + dd.title + '</h4></a>' + 
+                img_src = dd.preview.images[0].resolutions[1].url,
+                img_w = dd.preview.images[0].resolutions[1].width,
+                img_h = dd.preview.images[0].resolutions[1].height,
+                label = '<a target="_blank" href="https://www.reddit.com' + dd.permalink + '" width="' + img_w + '" height="' + img_h + '"><h4>' + dd.title + '</h4></a>' + 
                     '<a target="_blank" href="' + dd.url + '"><img src="' + img_src + '" class="map_thumb"></img></a>';
 
             mk.bindPopup(
