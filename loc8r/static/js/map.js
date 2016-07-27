@@ -12,10 +12,10 @@ var MapView = BaseView.extend({
         
         this.map = L.map(
             'map', this.settings
-        ).setView([33, -112],4);
+        ).setView([0, 0],2);
         
         L.tileLayer(
-            'https://otile1-s.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png'
+            'http://a.tile.openstreetmap.org/{z}/{x}/{y}.png'
         ).addTo(this.map);
         
         d3.json(this.url, this.load_layer.bind(this));
@@ -32,6 +32,7 @@ var MapView = BaseView.extend({
     },
     load_layer: function(d) {
         var map = this.map,
+            photos = this.photos = {},
     	    display_layer = this.display_layer,
             default_style = {
                 color: 'red',
@@ -45,7 +46,7 @@ var MapView = BaseView.extend({
     	try {
             map.removeLayer(display_layer);
         } catch (e) {  }
-		display_layer = L.markerClusterGroup();
+		display_layer = L.layerGroup();
 
 		d["result"].forEach(function(dd) {
             photos[dd.id] = dd;
@@ -53,7 +54,9 @@ var MapView = BaseView.extend({
                 .addTo(display_layer);
 			
             var self = this,
-                label = '<img src="' + dd.src + '" class="map_thumb"></img>';
+                img_src = dd.preview.images[0].resolutions[1].url
+                label = '<a target="_blank" href="https://www.reddit.com' + dd.permalink + '"><h4>' + dd.title + '</h4></a>' + 
+                    '<a target="_blank" href="' + dd.url + '"><img src="' + img_src + '" class="map_thumb"></img></a>';
 
             mk.bindPopup(
                     label, {
@@ -62,7 +65,6 @@ var MapView = BaseView.extend({
                     }
                 )
 				.on('mouseover', function show_tooltip () { this.openPopup(); })
-				.on('mouseout', function hide_tooltip () { this.closePopup(); })
 				.on('click', function map_click (e) {
                     try {
                         self.last_marker.setStyle(default_style)
@@ -75,17 +77,10 @@ var MapView = BaseView.extend({
                         fillOpacity: 0.5
                     });
                     self.last_marker = e.target;
-					router.navigate('photo/' + dd.id, true);
 				})
 		})
 
 		display_layer.addTo(map);
         this.display_layer = display_layer;
-
-        if (this.photo) {
-            this.photo_selected(this.photo);
-        } else {
-            this.photo_selected(d.results[0])
-        }
     }
 });
