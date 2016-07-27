@@ -11,7 +11,7 @@ app = Flask('loc8r')
 
 entity_module_id = 'ex_isnnZRbS'
 with open('../.ml_apikey', 'r') as f:
-    apikey = f.read()
+    apikey = f.read().replace('\n','')
 ml = MonkeyLearn(apikey)
 
 geolocator = GeoNames(
